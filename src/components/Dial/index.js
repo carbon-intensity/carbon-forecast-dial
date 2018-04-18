@@ -35,7 +35,7 @@ class Dial extends React.Component {
 	};
 
 	getCarbonForecast = (duration) => {
-		let endpoint = `https://api.carbonintensity.org.uk/intensity`;
+		let endpoint = `/api/`;
 
 		let request = new XMLHttpRequest();
             request.open('GET', endpoint, true);
