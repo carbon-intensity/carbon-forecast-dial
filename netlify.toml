@@ -1,0 +1,23 @@
+[build]
+    publish = "public"
+    functions = "functions"
+    command = "npm run build"
+
+[[headers]]
+    for = "/*"
+    [headers.values]
+        Content-Security-Policy = "default-src 'self' ; script-src 'self' 'unsafe-inline' https://www.google-analytics.com; style-src 'self' 'unsafe-inline' ; img-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net data: ; upgrade-insecure-requests; block-all-mixed-content; report-uri https://panda.report-uri.com/r/d/csp/enforce"
+        Expect-CT = "max-age=0, report-uri='https://panda.report-uri.com/r/d/ct/reportOnly'"
+        Referrer-Policy = "strict-origin-when-cross-origin"
+        X-Content-Type-Options = "nosniff"
+        X-XSS-Protection = "1; mode=block"
+
+# ------------------------------------------------------------------------------
+# Redirects
+# ------------------------------------------------------------------------------
+
+[[redirects]]
+    from = "/1.0.0/*"
+    to = "/:splat"
+    status = 200
+    force = false

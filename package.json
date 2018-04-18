@@ -1,0 +1,41 @@
+{
+  "name": "carbon-intensity-dial",
+  "version": "1.0.0",
+  "description": "A dial to show the avergage carbon is being output by the electricity consumption in the UK.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack -p && webpack --config webpack.functions.js",
+    "start": "webpack-dev-server --open",
+    "dev": "webpack-dev-server --open"
+  },
+  "author": "Ian James, ijames@wwf.org.uk",
+  "license": "UNLICENSED",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "dotenv": "^5.0.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "moment": "^2.22.0",
+    "moment-timezone": "^0.5.14",
+    "netlify-lambda": "^0.3.1",
+    "prop-types": "^15.6.1",
+    "pug-html-loader": "^1.1.5",
+    "raw-loader": "^0.5.1",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "request": "^2.85.0",
+    "style-loader": "^0.20.3",
+    "svg-inline-loader": "^0.8.0",
+    "svg-url-loader": "^2.3.2",
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-dev-server": "^3.1.3"
+  }
+}

@@ -1,0 +1,48 @@
+.dial {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.wrapper {
+    height: 100vmin;
+    width: 100vmin;
+    position: relative;
+}
+
+.dial__background {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+.dial__pointer {
+    fill: #74C050;
+    fill: #eeeeee;
+    position: relative;
+    transition: all 1000ms ease-in-out;
+}
+
+.dial__pointer--very-high {
+    fill: #EE3350;
+}
+
+.dial__pointer--high {
+    fill: #F89834;
+}
+
+.dial__pointer--moderate {
+    fill: #FFE600;
+}
+
+.dial__pointer--low {
+    fill: #74C050;
+}
+
+.dial__pointer--very-low {
+    fill: #74C050;
+}

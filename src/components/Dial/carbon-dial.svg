@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1080 1080" style="enable-background:new 0 0 1080 1080;" xml:space="preserve">
+    <g id="pointer">
+        <circle fill="none" class="st1" cx="540.5" cy="541" r="524" />
+        <ellipse transform="matrix(0.6936 -0.7203 0.7203 0.6936 -224.1161 555.0623)" class="st2" cx="540.5" cy="541" rx="54" ry="54" />
+        <path class="st2" d="M535.2,523.4l20.9,20.1c4.8,4.6,4.9,12.2,0.3,17L202.7,927.9c-4.6,4.8-12.2,4.9-17,0.3l-20.9-20.1
+		c-4.8-4.6-4.9-12.2-0.3-17l353.7-367.4C522.8,519,530.5,518.8,535.2,523.4z" />
+    </g>
+</svg>
