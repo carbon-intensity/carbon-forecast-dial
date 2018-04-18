@@ -4,7 +4,7 @@
   "description": "A dial to show the avergage carbon is being output by the electricity consumption in the UK.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack -p && webpack --config webpack.functions.js",
+    "build": "webpack -p",
     "start": "webpack-dev-server --open",
     "dev": "webpack-dev-server --open"
   },
