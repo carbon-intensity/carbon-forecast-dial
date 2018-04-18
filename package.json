@@ -10,7 +10,9 @@
   },
   "author": "Ian James, ijames@wwf.org.uk",
   "license": "UNLICENSED",
-  "dependencies": {},
+  "dependencies": {
+    "react-countup": "^3.0.3"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",

@@ -1,16 +1,18 @@
 import React from "react";
+import CountUp from 'react-countup';
+
 import style from './Dial.css';
+
 import pointer from './carbon-dial.svg';
 import background from './carbon-dial__background.svg';
 
 class Dial extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			carbon : 0
-		};
-		this.getCarbonForecast();
-	};
+
+	createDangerousHTML = (e) => {
+		return {
+			__html : e
+		}
+	}
 
 	band = (string) => {
 		switch(string) {
@@ -34,8 +36,8 @@ class Dial extends React.Component {
 			}
 	};
 
-	getCarbonForecast = (duration) => {
-		let endpoint = `/api/`;
+	getCarbonForecast = () => {
+		let endpoint = `https://carbon-dial.netlify.com/api/`;
 
 		let request = new XMLHttpRequest();
             request.open('GET', endpoint, true);
@@ -56,19 +58,42 @@ class Dial extends React.Component {
             };
 			request.send();
 	};
-	createBackground = () => {
-		return {
-			__html : background
-		}
-	}
-	createPointer = () => {
-		return {
-			__html : pointer
-		}
+
+	onCounterComplete = () => {
+		this.setState({counterStart : this.state.carbon})
+	};
+
+	tick = () => {
+		this.getCarbonForecast();
 	}
 
-	// min : rotate(0)
-	// max : rotate(285deg)
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			carbon : 0,
+			counterStart: 0
+		};
+		this.getCarbonForecast();
+
+		// setTimeout( () => {
+		// 	this.setState({carbon: 250})
+		// }, 5000)
+		// setTimeout( () => {
+		// 	this.setState({carbon: 50})
+		// }, 7500)
+	};
+
+	componentDidMount() {
+		this.interval = setInterval(() => {
+			this.tick(),
+			60 * 1000
+		});
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.interval);
+	}
 
 	render() {
 		let pointerClassName = () => {
@@ -89,7 +114,6 @@ class Dial extends React.Component {
 				return { transform: 'rotate(' + rotation.max + 'deg)'};
 			}
 			else {
-				console.log((integer / rotation.max) * integer)
 				return { transform: 'rotate(' + (integer / rotation.max) * integer + 'deg)' };
 			}
 
@@ -98,8 +122,27 @@ class Dial extends React.Component {
 		return (
 			<figure className={style['dial']}>
 				<div className={style['wrapper']}>
-					<div className={style['dial__background']} dangerouslySetInnerHTML={this.createBackground()} />
-					<div className={pointerClassName()} style={calculateRotation(this.state.carbon)} dangerouslySetInnerHTML={this.createPointer()} />
+					<div
+						className={style['dial__background']}
+						dangerouslySetInnerHTML={this.createDangerousHTML(background)}
+					/>
+					<div
+						className={pointerClassName()}
+						style={calculateRotation(this.state.carbon)}
+						dangerouslySetInnerHTML={this.createDangerousHTML(pointer)}
+					/>
+					<figcaption className={style['counter']}>
+						<CountUp
+							start={this.state.counterStart}
+							end={this.state.carbon}
+							duration={1.5}
+							useEasing={true}
+							separator=","
+							className={style['counter__number']}
+							onComplete={this.onCounterComplete}
+						/>
+						g CO₂ per kWh
+					</figcaption>
 				</div>
 			</figure>
 		);
