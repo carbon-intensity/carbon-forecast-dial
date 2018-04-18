@@ -3,11 +3,11 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const dotenv = require('dotenv');
-    dotenv.config({path: path.resolve(__dirname) + '/.environmentName'});
+dotenv.config({path: path.resolve(__dirname) + '/.environmentName'});
 
-    // Currently using .env built into Netlify admin area. Use this if building
-    // locally
-    // dotenv.config({path: path.resolve(__dirname) + '/.env'});
+// Currently using .env built into Netlify admin area. Use this if building
+// locally
+// dotenv.config({path: path.resolve(__dirname) + '/.env'});
 
 module.exports = {
     mode: 'development',
