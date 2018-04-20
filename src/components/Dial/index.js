@@ -1,105 +1,130 @@
 import React from "react";
+import CountUp from 'react-countup';
+
 import style from './Dial.css';
+
 import pointer from './carbon-dial.svg';
 import background from './carbon-dial__background.svg';
 
 class Dial extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			carbon : 0
-		};
-		this.getCarbonForecast();
+
+	createDangerousHTML = (e) => {
+		return {
+			__html : e
+		}
+	}
+
+	prettifyBanding = (string) => {
+		return string.replace(/ /g, '-');
 	};
 
-	band = (string) => {
-		switch(string) {
-			case 'very high':
-				return 'very-high';
-				break;
-			case 'high':
-				return 'high';
-				break;
-			case 'moderate':
-				return 'moderate';
-				break;
-			case 'low':
-				return 'low';
-				break;
-			case 'very low':
-				return 'very-low';
-				break;
-			default:
-				return false;
-			}
-	};
-
-	getCarbonForecast = (duration) => {
+	getCarbonForecast = () => {
 		let endpoint = `/api/`;
 
 		let request = new XMLHttpRequest();
             request.open('GET', endpoint, true);
-            request.onreadystatechange = (ev) => {
+            request.addEventListener('load', (ev) => {
                 if (request.readyState === 4) {
                     if (request.status >= 200 && request.status < 400) {
                         let response = JSON.parse(request.responseText);
-                        this.setState({
-                        	carbon : response.data[0].intensity.forecast,
-                        	carbonIndex : this.band(response.data[0].intensity.index)
-                        })
-                    }
-                    else {
+				        this.setState({
+				        	carbon : response.data[0].intensity.average,
+				        	carbonIndex : this.prettifyBanding(response.data[0].intensity.index),
+				        	timeHumanReadable: `${response.data[0].fromHumanReadable} to ${response.data[0].toHumanReadable}`,
+				        	time: response.data[0].from
+				        });
+                    } else {
                     	console.warn('XHR error');
                         // Error :(
                     }
                 }
-            };
+            });
 			request.send();
 	};
-	createBackground = () => {
-		return {
-			__html : background
+
+	onCounterComplete = () => {
+		this.setState({counterStart : this.state.carbon})
+	};
+
+	tick = () => {
+		console.log('tick tock', new Date())
+		this.getCarbonForecast();
+	};
+
+	calculateRotation = (currentCarbon) => {
+		let rotation = {
+			max : 285
+		};
+		let carbon = {
+			max : 380
+		};
+		if (currentCarbon >= carbon.max) {
+			return { transform: 'rotate(' + rotation.max + 'deg)'};
 		}
-	}
-	createPointer = () => {
-		return {
-			__html : pointer
+		else {
+			return { transform: 'rotate(' + ((rotation.max / carbon.max) * currentCarbon) + 'deg)' };
 		}
 	}
 
-	// min : rotate(0)
-	// max : rotate(285deg)
+	counterClassName = () => {
+		if (this.state.carbon === "?") {
+			return `${style['counter']} ${style['counter--inactive']}`;
+		}
+		else {
+			return style['counter'];
+		}
+	}
+
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			carbon : "?",
+			counterStart: 0,
+			timeHumanReadable : "?"
+		};
+	};
+
+	componentDidMount() {
+		this.tick()
+		this.interval = setInterval(() => {
+			this.tick()
+		},
+		600000 // 10 * 60 * 1000 // ten minutes
+		);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.interval);
+	}
 
 	render() {
-		let pointerClassName = () => {
-			return `${style['dial__pointer']} ${style['dial__pointer--' + this.state.carbonIndex]}`;
-		}
-
-		let calculateRotation = (integer) => {
-
-			let rotation = {
-				max : 285
-			};
-
-			let carbon = {
-				max : 380
-			}
-
-			if (integer >= carbon.max) {
-				return { transform: 'rotate(' + rotation.max + 'deg)'};
-			}
-			else {
-				console.log((integer / rotation.max) * integer)
-				return { transform: 'rotate(' + (integer / rotation.max) * integer + 'deg)' };
-			}
-
-		}
-
+		let pointerClassName = `${style['dial__pointer']} ${style['dial__pointer--' + this.state.carbonIndex]}`;
 		return (
 			<figure className={style['dial']}>
 				<div className={style['wrapper']}>
-					<div className={style['dial__background']} dangerouslySetInnerHTML={this.createBackground()} />
-					<div className={pointerClassName()} style={calculateRotation(this.state.carbon)} dangerouslySetInnerHTML={this.createPointer()} />
+					<div
+						className={style['dial__background']}
+						dangerouslySetInnerHTML={this.createDangerousHTML(background)}
+					/>
+					<div
+						className={pointerClassName}
+						style={this.calculateRotation(this.state.carbon)}
+						dangerouslySetInnerHTML={this.createDangerousHTML(pointer)}
+					/>
+					<figcaption className={this.counterClassName()}>
+						<p><CountUp
+							start={this.state.counterStart}
+							end={this.state.carbon}
+							duration={1.5}
+							useEasing={true}
+							separator=","
+							className={style['counter__number']}
+							onComplete={this.onCounterComplete}
+						/>
+						g CO<sub>2</sub> per kWh</p>
+						<p><time className={style.counter__time} dateTime={this.state.time}>{this.state.timeHumanReadable} today</time></p>
+					</figcaption>
 				</div>
 			</figure>
 		);

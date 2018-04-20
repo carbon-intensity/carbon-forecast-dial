@@ -23,6 +23,6 @@
 
 [[redirects]]
     from = "/api/*"
-    to = "https://api.carbonintensity.org.uk/intensity"
+    to = "/.netlify/functions/api"
     status = 200
     force = false

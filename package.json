@@ -4,13 +4,17 @@
   "description": "A dial to show the avergage carbon is being output by the electricity consumption in the UK.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack -p",
-    "start": "webpack-dev-server --open",
-    "dev": "webpack-dev-server --open"
+    "build": "npm run build:site && npm run build:functions",
+    "dev:site": "webpack-dev-server --open",
+    "build:site" : "webpack -p",
+    "dev:functions": "netlify-lambda serve _functions",
+    "build:functions": "webpack --config webpack.functions.js"
   },
   "author": "Ian James, ijames@wwf.org.uk",
   "license": "UNLICENSED",
-  "dependencies": {},
+  "dependencies": {
+    "react-countup": "^3.0.3"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
