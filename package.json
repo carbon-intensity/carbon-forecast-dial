@@ -5,8 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack -p",
-    "start": "webpack-dev-server --open",
-    "dev": "webpack-dev-server --open"
+    "dev": "webpack-dev-server --open",
+    "dev:functions": "netlify-lambda serve _functions",
+    "functions": "webpack --config webpack.functions.js"
   },
   "author": "Ian James, ijames@wwf.org.uk",
   "license": "UNLICENSED",
