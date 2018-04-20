@@ -20,9 +20,3 @@
     to = "/:splat"
     status = 200
     force = false
-
-[[redirects]]
-    from = "/api/*"
-    to = "https://api.carbonintensity.org.uk/intensity"
-    status = 200
-    force = false
