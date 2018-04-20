@@ -21,27 +21,6 @@ class Dial extends React.Component {
 	getCarbonForecast = () => {
 		let endpoint = `/api/`;
 
-		// fetch(endpoint)
-		// 	.then( (response) => {
-  //               if (response.status >= 200 && response.status < 400) {
-		// 			return response.json();
-		// 		}
-		// 		else {
-		// 			throw new Error('Response not >= 200 and < 400');
-		// 		}
-		// 	})
-		// 	.then( (response) => {
-		//         this.setState({
-		//         	carbon : response.data[0].intensity.average,
-		//         	carbonIndex : this.prettifyBanding(response.data[0].intensity.index),
-		//         	timeHumanReadable: `${response.data[0].fromHumanReadable} to ${response.data[0].toHumanReadable}`,
-		//         	time: response.data[0].from
-		//         });
-		// 	})
-		// 	.catch( (error) => {
-		// 		console.warn(error)
-		// 	})
-
 		let request = new XMLHttpRequest();
             request.open('GET', endpoint, true);
             request.addEventListener('load', (ev) => {
