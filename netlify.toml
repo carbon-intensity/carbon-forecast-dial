@@ -20,3 +20,9 @@
     to = "/:splat"
     status = 200
     force = false
+
+[[redirects]]
+    from = "/api/*"
+    to = "/.netlify/functions/api"
+    status = 200
+    force = false
