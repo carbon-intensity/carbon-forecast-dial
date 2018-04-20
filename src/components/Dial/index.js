@@ -19,7 +19,7 @@ class Dial extends React.Component {
 	};
 
 	getCarbonForecast = () => {
-		let endpoint = `/api/`; //https://carbon-dial.netlify.com/api/`;
+		let endpoint = `/api/`;
 
 		// fetch(endpoint)
 		// 	.then( (response) => {
@@ -68,6 +68,7 @@ class Dial extends React.Component {
 	};
 
 	tick = () => {
+		console.log('tick tock', new Date())
 		this.getCarbonForecast();
 	};
 
@@ -106,11 +107,12 @@ class Dial extends React.Component {
 	};
 
 	componentDidMount() {
-    	this.tick();
-		// this.interval = setInterval(() => {
-		// 	this.tick(),
-		// 	60 * 1000
-		// });
+		this.tick()
+		this.interval = setInterval(() => {
+			this.tick()
+		},
+		600000 // 10 * 60 * 1000 // ten minutes
+		);
 	}
 
 	componentWillUnmount() {
