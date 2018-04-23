@@ -66,7 +66,7 @@ class Dial extends React.Component {
 	};
 
 	tick = () => {
-		// console.log('tick tock', new Date())
+		console.log('tick tock', new Date())
 		this.getCarbonForecast();
 	};
 
