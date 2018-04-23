@@ -3,8 +3,8 @@ import CountUp from 'react-countup';
 
 import style from './Dial.css';
 
-import pointer from './carbon-dial.svg';
-import background from './carbon-dial__background.svg';
+import pointer from 'svg-inline-loader!./carbon-dial.svg';
+import background from 'svg-url-loader?iesafe!./carbon-dial__background.svg';
 
 class Dial extends React.Component {
 
@@ -103,16 +103,13 @@ class Dial extends React.Component {
 		return (
 			<figure className={style['dial']}>
 				<div className={style['wrapper']}>
-					<div
-						className={style['dial__background']}
-						dangerouslySetInnerHTML={this.createDangerousHTML(background)}
-					/>
+					<img className={style['dial__background']} src={background} alt="" aria-hidden="true" role="presentation" />
 					<div
 						className={pointerClassName}
 						style={this.calculateRotation(this.state.carbon)}
 						dangerouslySetInnerHTML={this.createDangerousHTML(pointer)}
 					/>
-					<figcaption className={this.counterClassName()}>
+					<figcaption className={this.counterClassName()} aria-live="polite">
 						<p><CountUp
 							start={this.state.counterStart}
 							end={this.state.carbon}

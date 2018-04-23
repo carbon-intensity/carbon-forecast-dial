@@ -7,7 +7,7 @@ dotenv.config({path: path.resolve(__dirname) + '/.environmentName'});
 
 // Currently using .env built into Netlify admin area. Use this if building
 // locally
-// dotenv.config({path: path.resolve(__dirname) + '/.env'});
+dotenv.config({path: path.resolve(__dirname) + '/.env'});
 
 module.exports = {
     mode: 'development',
@@ -63,22 +63,6 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:8]'
-            // },
-            // {
-            //     test: /\.svg$/,
-            //     use: {
-            //         loader: 'svg-url-loader',
-            //         options: {
-            //             noquotes: true,
-            //             limit: 1024,
-            //             stripdeclarations: true,
-
-            //         }
-            //     }
-            },
-            {
-                test: /\.svg$/,
-                loader: 'svg-inline-loader'
             }
         ]
     },
