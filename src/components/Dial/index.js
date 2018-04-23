@@ -6,13 +6,22 @@ import style from './Dial.css';
 import pointer from 'svg-inline-loader!./carbon-dial.svg';
 import background from 'svg-url-loader?iesafe!./carbon-dial__background.svg';
 
-class Dial extends React.Component {
-
-	createDangerousHTML = (e) => {
-		return {
-			__html : e
-		}
+const report = (message, additionalInfo, level = 'warning') => {
+	try {
+		Rollbar[level](message, { moreInfo: JSON.stringify(additionalInfo) });
 	}
+	catch (error) {
+		console.warn(level, message)
+		console.dir(additionalInfo)
+	}
+}
+
+class Dial extends React.Component {
+	createDangerousHTML = (theHTML) => {
+		return {
+			__html : theHTML
+		}
+	};
 
 	prettifyBanding = (string) => {
 		return string.replace(/ /g, '-');
@@ -22,32 +31,42 @@ class Dial extends React.Component {
 		let endpoint = `/api/`;
 
 		let request = new XMLHttpRequest();
-            request.open('GET', endpoint, true);
-            request.addEventListener('load', (ev) => {
-                if (request.readyState === 4) {
-                    if (request.status >= 200 && request.status < 400) {
-                        let response = JSON.parse(request.responseText);
-				        this.setState({
-				        	carbon : response.data[0].intensity.average,
-				        	carbonIndex : this.prettifyBanding(response.data[0].intensity.index),
-				        	timeHumanReadable: `${response.data[0].fromHumanReadable} to ${response.data[0].toHumanReadable}`,
-				        	time: response.data[0].from
-				        });
-                    } else {
-                    	console.warn('XHR error');
-                        // Error :(
-                    }
+
+        request.addEventListener('load', (ev) => {
+            if (request.readyState === 4) {
+                if (request.status >= 200 && request.status < 400) {
+                    let response = JSON.parse(request.responseText);
+			        this.setState({
+			        	carbon : response.data[0].intensity.average,
+			        	carbonIndex : this.prettifyBanding(response.data[0].intensity.index),
+			        	timeHumanReadable: `${response.data[0].fromHumanReadable} to ${response.data[0].toHumanReadable}`,
+			        	time: response.data[0].from
+			        });
+                } else {
+                	report('Error reaching Carbon Intensity API', request, 'critical');
+                    // Error :(
                 }
-            });
-			request.send();
+            }
+        });
+        request.addEventListener('error', (ev) => {
+        	report('An error occured while receiving the data from the API.', ev, 'error');
+        });
+        request.addEventListener('abort', (ev) => {
+        	report('The connection to the API was aborted', ev, 'warning');
+        });
+
+        request.open('GET', endpoint, true);
+		request.send();
 	};
 
 	onCounterComplete = () => {
-		this.setState({counterStart : this.state.carbon})
+		this.setState( {
+			counterStart : this.state.carbon
+		} )
 	};
 
 	tick = () => {
-		console.log('tick tock', new Date())
+		// console.log('tick tock', new Date())
 		this.getCarbonForecast();
 	};
 
@@ -64,7 +83,7 @@ class Dial extends React.Component {
 		else {
 			return { transform: 'rotate(' + ((rotation.max / carbon.max) * currentCarbon) + 'deg)' };
 		}
-	}
+	};
 
 	counterClassName = () => {
 		if (this.state.carbon === "?") {
@@ -73,7 +92,7 @@ class Dial extends React.Component {
 		else {
 			return style['counter'];
 		}
-	}
+	};
 
 
 	constructor(props) {
@@ -86,9 +105,9 @@ class Dial extends React.Component {
 	};
 
 	componentDidMount() {
-		this.tick()
+		this.tick();
 		this.interval = setInterval(() => {
-			this.tick()
+			this.tick();
 		},
 		600000 // 10 * 60 * 1000 // ten minutes
 		);
@@ -96,7 +115,7 @@ class Dial extends React.Component {
 
 	componentWillUnmount() {
 		clearInterval(this.interval);
-	}
+	};
 
 	render() {
 		let pointerClassName = `${style['dial__pointer']} ${style['dial__pointer--' + this.state.carbonIndex]}`;
@@ -125,6 +144,6 @@ class Dial extends React.Component {
 				</div>
 			</figure>
 		);
-	}
+	};
 }
 export default Dial;
