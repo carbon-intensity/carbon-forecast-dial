@@ -54,7 +54,7 @@
 }
 
 .counter {
-    font: normal 2em/1 'Fira Mono', monospace;
+    font: normal 2em/1 "Open Sans", sans-serif;
     width: 100%;
     flex-direction: column;
     text-align: center;
@@ -71,6 +71,7 @@
 .counter p {
     background: rgba(255, 255, 255, 0.75);
     border-radius: 0.2em;
+    color: #222222;
     padding: 0 1em;
     opacity: 1;
     transition: opacity 300ms ease-out;
