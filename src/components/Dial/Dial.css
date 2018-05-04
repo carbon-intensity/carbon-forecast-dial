@@ -1,36 +1,35 @@
 .dial {
-    margin: auto;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    display: flex;
     height: 100vh;
+    justify-content: center;
+    margin: auto;
     overflow: hidden;
     width: 100vw;
 }
 
 .wrapper {
     height: 100vmin;
-    width: 100vmin;
     position: relative;
+    width: 100vmin;
 }
 
 .dial__background {
-    position: absolute;
-    top: 0;
-    width: 100%;
     height: 100%;
     left: 0;
+    position: relative;
+    top: 0;
+    width: 100%;
 }
 
 .dial__pointer {
-    fill: #74C050;
     fill: #eeeeee;
-    position: relative;
-    transition: all 1000ms ease-in-out;
-    top: 0;
-    width: 100%;
     height: 100%;
     left: 0;
+    position: absolute;
+    top: 0;
+    transition: all 1000ms ease-in-out;
+    width: 100%;
 }
 
 .dial__pointer--very-high {
@@ -54,28 +53,28 @@
 }
 
 .counter {
-    font: normal 2em/1 "Open Sans", sans-serif;
-    width: 100%;
-    flex-direction: column;
-    text-align: center;
-    position: absolute;
-    top: 30%;
-    left: 0;
-    height: 70%;
-    width: 100%;
-    display: flex;
     align-items: center;
-    justify-content: center
+    display: flex;
+    flex-direction: column;
+    font: normal 2em/1 "Open Sans", sans-serif;
+    height: 70%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 30%;
+    width: 100%;
+    width: 100%;
 }
 
 .counter p {
     background: rgba(255, 255, 255, 0.75);
     border-radius: 0.2em;
     color: #222222;
-    padding: 0 1em;
-    opacity: 1;
-    transition: opacity 300ms ease-out;
     margin: 0;
+    opacity: 1;
+    padding: 0 1em;
+    transition: opacity 300ms ease-out;
 }
 
 .counter--inactive p {
@@ -83,9 +82,9 @@
 }
 
 .counter__number {
-    width: 2em;
     display: inline-block;
     text-align: right;
+    width: 2em;
 }
 
 .counter__time {

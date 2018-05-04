@@ -22,7 +22,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader'
@@ -71,16 +71,6 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: './src/index.pug',
             filename: './index.html'
-        // }),
-        // new CompressionPlugin({
-        //     test: /\.js$/,
-        //     exclude: /node_modules/,
-        //     cache: false,
-        //     algorithm: 'gzip',
-        //     filename(asset) {
-        //         asset = 'gzipped';
-        //         return asset
-        //     }
         })
     ]
 };

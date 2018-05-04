@@ -1,44 +1,29 @@
 import React from "react";
 import CountUp from 'react-countup';
 
+import report from '../../utilities/report';
+import createDangerousHTML from '../../utilities/createDangerousHTML';
+import prettifyBanding from '../../utilities/replaceSpacesWithDashes';
+
 import style from './Dial.css';
 
 import pointer from 'svg-inline-loader!./carbon-dial.svg';
 import background from 'svg-url-loader?iesafe!./carbon-dial__background.svg';
 
-const report = (message, additionalInfo, level = 'warning') => {
-	try {
-		Rollbar[level](message, { moreInfo: JSON.stringify(additionalInfo) });
-	}
-	catch (error) {
-		console.warn(level, message)
-		console.dir(additionalInfo)
-	}
-}
 
 class Dial extends React.Component {
-	createDangerousHTML = (theHTML) => {
-		return {
-			__html : theHTML
-		}
-	};
-
-	prettifyBanding = (string) => {
-		return string.replace(/ /g, '-');
-	};
 
 	getCarbonForecast = () => {
-		let endpoint = `/api/`;
+		let endpoint = `https://carbon-dial.netlify.com/api/`;
 
 		let request = new XMLHttpRequest();
-
         request.addEventListener('load', (ev) => {
             if (request.readyState === 4) {
                 if (request.status >= 200 && request.status < 400) {
                     let response = JSON.parse(request.responseText);
 			        this.setState({
 			        	carbon : response.data[0].intensity.average,
-			        	carbonIndex : this.prettifyBanding(response.data[0].intensity.index),
+			        	carbonIndex : prettifyBanding(response.data[0].intensity.index),
 			        	timeHumanReadable: `${response.data[0].fromHumanReadable} to ${response.data[0].toHumanReadable}`,
 			        	time: response.data[0].from
 			        });
@@ -75,7 +60,7 @@ class Dial extends React.Component {
 			max : 285
 		};
 		let carbon = {
-			max : 380
+			max : 530
 		};
 		if (currentCarbon >= carbon.max) {
 			return { transform: 'rotate(' + rotation.max + 'deg)'};
@@ -98,9 +83,16 @@ class Dial extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			carbon : "?",
+			carbon : '?',
 			counterStart: 0,
-			timeHumanReadable : "?"
+			timeHumanReadable : '?',
+			year2013average : 529,
+			year2014average : 477,
+			year2015average : 443,
+			year2016average : 330,
+			year2017average : 266,
+			year2030target : 100,
+			year2043target : 50
 		};
 	};
 
@@ -118,15 +110,53 @@ class Dial extends React.Component {
 	};
 
 	render() {
-		let pointerClassName = `${style['dial__pointer']} ${style['dial__pointer--' + this.state.carbonIndex]}`;
+		let pointerClassName = (carbonIndex) => {
+			return `${style['dial__pointer']} ${style['dial__pointer--' + carbonIndex]}`;
+		};
+
 		return (
 			<figure className={style['dial']}>
 				<div className={style['wrapper']}>
 					<img className={style['dial__background']} src={background} alt="" aria-hidden="true" role="presentation" />
+					{/*<div
+						className={pointerClassName('very-high')}
+						style={this.calculateRotation(this.state.year2013average)}
+						dangerouslySetInnerHTML={createDangerousHTML(pointer)}
+					/>
 					<div
-						className={pointerClassName}
+						className={pointerClassName('very-high')}
+						style={this.calculateRotation(this.state.year2014average)}
+						dangerouslySetInnerHTML={createDangerousHTML(pointer)}
+					/>
+					<div
+						className={pointerClassName('high')}
+						style={this.calculateRotation(this.state.year2015average)}
+						dangerouslySetInnerHTML={createDangerousHTML(pointer)}
+					/>
+					<div
+						className={pointerClassName('high')}
+						style={this.calculateRotation(this.state.year2016average)}
+						dangerouslySetInnerHTML={createDangerousHTML(pointer)}
+					/>
+					<div
+						className={pointerClassName('moderate')}
+						style={this.calculateRotation(this.state.year2017average)}
+						dangerouslySetInnerHTML={createDangerousHTML(pointer)}
+					/>
+					<div
+						className={pointerClassName('low')}
+						style={this.calculateRotation(this.state.year2030target)}
+						dangerouslySetInnerHTML={createDangerousHTML(pointer)}
+					/>
+					<div
+						className={pointerClassName('very-low')}
+						style={this.calculateRotation(this.state.year2043target)}
+						dangerouslySetInnerHTML={createDangerousHTML(pointer)}
+					/>*/}
+					<div
+						className={pointerClassName(this.state.carbonIndex)}
 						style={this.calculateRotation(this.state.carbon)}
-						dangerouslySetInnerHTML={this.createDangerousHTML(pointer)}
+						dangerouslySetInnerHTML={createDangerousHTML(pointer)}
 					/>
 					<figcaption className={this.counterClassName()} aria-live="polite">
 						<p><CountUp
