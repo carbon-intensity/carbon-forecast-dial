@@ -1,0 +1,65 @@
+.indicator {
+    transition: transform 1s ease-in-out;
+    transform-origin : 50% 50%;
+}
+
+.icon {
+    width: 4em;
+    height: 4em;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.gen-mix-dial {
+    display: inline-block;
+    width: 14vw;
+    position: relative;
+    margin: 0;
+    box-sizing: border-box;
+    height: 14vw;
+}
+
+.indicator {
+    fill: red;
+}
+
+.indicator--wind {
+    fill: #ed7474;
+}
+
+.indicator--solar {
+    fill: #e2d700;
+}
+
+.indicator--hydro {
+    fill: #001cf4;
+}
+.indicator--gas {
+    fill: #2f82d6;
+}
+.indicator--coal {
+    fill: #3d3d3d;
+}
+.indicator--biomass {
+    fill: #824e1a;
+}
+.indicator--nuclear {
+    fill: #59d600;
+}
+.indicator--imports {
+    fill: #7100e2;
+}
+.indicator--storage {
+    fill: #f96c00;
+}
+
+.vh {
+   position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding:0 !important;
+    border:0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
+}

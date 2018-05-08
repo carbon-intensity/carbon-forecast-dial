@@ -3,15 +3,14 @@
     display: flex;
     height: 100vh;
     justify-content: center;
-    margin: auto;
     overflow: hidden;
-    width: 100vw;
+    width: 50vw;
 }
 
 .wrapper {
-    height: 100vmin;
+    height: 90vmin;
     position: relative;
-    width: 100vmin;
+    width: 90vmin;
 }
 
 .dial__background {

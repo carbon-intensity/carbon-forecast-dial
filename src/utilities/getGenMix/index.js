@@ -1,19 +1,20 @@
 import report from '../report/index.js';
+import https from 'https';
 
-const getGenMix = () => {
-    let endpoint = `https://k1nehbcl85.execute-api.eu-west-2.amazonaws.com/v4/generation/2018-04-20T10:30Z/2018-04-20T11:00Z`;
+const getGenMix = (t) => {
+    let endpoint = `/mix`;
 
     let request = new XMLHttpRequest();
     request.addEventListener('load', (ev) => {
         if (request.readyState === 4) {
             if (request.status >= 200 && request.status < 400) {
                 let response = JSON.parse(request.responseText);
-                this.setState({
-                    carbon : response.data[0].intensity.average,
-                    carbonIndex : prettifyBanding(response.data[0].intensity.index),
-                    timeHumanReadable: `${response.data[0].fromHumanReadable} to ${response.data[0].toHumanReadable}`,
-                    time: response.data[0].from
-                });
+                t.setState({
+                    from: response.data[0].from,
+                    to: response.data[0].to,
+                    generation: response.data[0].generation.MW,
+                    generationTypes: response.data[0].generationTypes
+                })
             } else {
                 report('Error reaching Carbon Intensity API', request, 'critical');
                 // Error :(

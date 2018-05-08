@@ -26,3 +26,9 @@
     to = "/.netlify/functions/api"
     status = 200
     force = false
+
+[[redirects]]
+    from = "/mix/*"
+    to = "/.netlify/functions/mix"
+    status = 200
+    force = false
