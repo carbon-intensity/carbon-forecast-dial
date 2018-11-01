@@ -13,7 +13,7 @@
   "author": "Ian James, ijames@wwf.org.uk",
   "license": "UNLICENSED",
   "dependencies": {
-    "react-countup": "^3.0.3"
+    "react-countup": "^4.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
